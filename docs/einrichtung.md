@@ -108,3 +108,14 @@ Ohne diese Bob-seitige Konfiguration meldet Bob: *kein ibmi-mcp verfügbar* — 
 ## Typischer Agent-Aufruf
 
 > Nutze `bob_version`, dann `bob_prompt` im Modus `ask`: Erkläre kurz die Architektur dieses Projekts.
+
+## Repository und Pfade
+
+| Ort | Pfad |
+|-----|------|
+| GitHub | `git@github.com:thelad-dev/bob-cursor-mcp.git` |
+| <DEV-HOST> (kanonisch) | `/home/<USER>/Workspaces/bob-cursor-mcp` |
+| <HOST> (Netzlaufwerk) | `/home/<USER>/path/to/bob-cursor-mcp` |
+| <HOST> (Arbeitskopie) | `/home/<USER>/workspaces/bob-cursor-mcp` — `git clone`/`pull`, falls das Netzlaufwerk veraltet wirkt |
+
+Auf <HOST> zeigt der CIFS-Mount manchmal nur einen leeren Ordner — dann `git pull` in der Arbeitskopie unter `~/workspaces/bob-cursor-mcp` nutzen und Cursor dort öffnen.
