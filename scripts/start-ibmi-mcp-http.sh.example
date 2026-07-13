@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Vorlage für /home/<USER>/ibmi-mcp-server/start-http.sh
+# Siehe docs/deployment-host.md
+set -euo pipefail
+cd /home/<USER>/ibmi-mcp-server
+set -a
+source .env
+set +a
+exec npx -y @ibm/ibmi-mcp-server@latest \
+  --transport http \
+  --tools "${TOOLS_YAML_PATH:-/home/<USER>/ibmi-mcp-server/tools}" \
+  --builtin-tools \
+  --execute-sql
