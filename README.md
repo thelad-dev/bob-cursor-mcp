@@ -13,7 +13,8 @@ MCP-Server, der [IBM Bob Shell](https://bob.ibm.com/docs/shell) als Tools für C
 ## Installation
 
 ```bash
-cd /home/<USER>/path/to/bob-cursor-mcp
+git clone
+cd ./bob-cursor-mcp
 npm install
 npm run build
 ```
