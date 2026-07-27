@@ -28,10 +28,10 @@ Die Projekt-Konfiguration liegt in [`.cursor/mcp.json`](.cursor/mcp.json). Ergä
   "mcpServers": {
     "ibm-bob": {
       "command": "node",
-      "args": ["/home/<USER>/path/to/bob-cursor-mcp/dist/index.js"],
+      "args": ["./bob-cursor-mcp/dist/index.js"],
       "env": {
         "BOBSHELL_API_KEY": "<Ihr-Key>",
-        "BOB_BIN": "/home/<USER>/.local/bin/bob"
+        "BOB_BIN": "~/.local/bin/bob"
       }
     }
   }
