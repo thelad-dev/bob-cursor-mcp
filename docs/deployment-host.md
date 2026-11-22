@@ -1,6 +1,6 @@
-# ibmi-mcp auf <HOST> betreiben
+# ibmi-mcp auf `<HOST>` betreiben
 
-Betriebsanleitung für den **IBM i MCP Server** auf `<HOST>` (HTTP Port 3010). Der Server selbst ist das upstream-Projekt [IBM/ibmi-mcp-server](https://github.com/IBM/ibmi-mcp-server) — diese Doku beschreibt nur die **lokale Installation und Anpassungen** auf der Maschine.
+Betriebsanleitung fuer den **IBM i MCP Server** auf `<HOST>` (HTTP Port 3010). Der Server selbst ist das upstream-Projekt [IBM/ibmi-mcp-server](https://github.com/IBM/ibmi-mcp-server). Diese Doku beschreibt nur die **lokale Installation und Anpassungen** auf der Maschine.
 
 ## Schnellstart
 
@@ -30,7 +30,7 @@ for line in sys.stdin:
 
 Erwartung: **79 Tools**, **2 Schreib-Tools**.
 
-## Dateien auf <HOST>
+## Dateien auf `<HOST>`
 
 | Datei | Zweck |
 |-------|--------|
@@ -38,11 +38,11 @@ Erwartung: **79 Tools**, **2 Schreib-Tools**.
 | `/home/<USER>/ibmi-mcp-server/start-http.sh` | Startskript (lokal anlegen, siehe unten) |
 | `tools/**/*.yaml` im IBM-Clone | ggf. lokale Patches (siehe YAML-Anpassungen) |
 
-Vorlage für das Startskript: [../scripts/start-ibmi-mcp-http.sh.example](../scripts/start-ibmi-mcp-http.sh.example)
+Vorlage fuer das Startskript: [../scripts/start-ibmi-mcp-http.sh.example](../scripts/start-ibmi-mcp-http.sh.example)
 
 ## `.env` (Auszug)
 
-In `/home/<USER>/ibmi-mcp-server/.env` ergänzen:
+In `/home/<USER>/ibmi-mcp-server/.env` ergaenzen:
 
 ```bash
 TOOLS_YAML_PATH=/home/<USER>/ibmi-mcp-server/tools
@@ -78,7 +78,7 @@ exec npx -y @ibm/ibmi-mcp-server@latest \
 
 ## Lokale YAML-Patches (IBM-Clone)
 
-Diese Änderungen liegen **nur auf der Maschine** — nicht ins IBM-upstream-Repo committen.
+Diese Aenderungen liegen **nur auf der Maschine** - nicht ins IBM-upstream-Repo committen.
 
 ### `tools/developer/text2sql.yaml`
 
@@ -88,20 +88,20 @@ Diese Änderungen liegen **nur auf der Maschine** — nicht ins IBM-upstream-Rep
 ### `tools/sys-admin/sys-admin.yaml`
 
 - `describe_object` bleibt **`enabled: false`**
-- Grund: `CALL QSYS2.GENERATE_SQL` scheitert am ReadOnly-Validator; gesamtes sys-admin-YAML lädt nicht
+- Grund: `CALL QSYS2.GENERATE_SQL` scheitert am ReadOnly-Validator; gesamtes sys-admin-YAML laedt nicht
 - Alternative: Built-in **`describe_sql_object`**
 
 ### `tools/security/security-ops.yaml`
 
-- `repopulate_special_authority_detail`: zusätzlich **`destructiveHint: true`**
-- Cursor zeigt damit zuverlässig einen Bestätigungsdialog
+- `repopulate_special_authority_detail`: zusaetzlich **`destructiveHint: true`**
+- Cursor zeigt damit zuverlaessig einen Bestaetigungsdialog
 
 ## Lese- vs. Schreib-Tools
 
 | `readOnlyHint` | Anzahl | Cursor |
 |----------------|--------|--------|
-| `true` | 77 | Auto-Ausführung |
-| `false` | 2 | Bestätigung |
+| `true` | 77 | Auto-Ausfuehrung |
+| `false` | 2 | Bestaetigung |
 
 Schreib-Tools: `repopulate_special_authority_detail`, `execute_impersonation_lockdown`.
 
@@ -123,7 +123,7 @@ Remote: `http://<HOST>.<DOMAIN>:3010/mcp`
 
 ```bash
 screen -ls
-screen -r ibmi-mcp      # anhängen
+screen -r ibmi-mcp      # anhaengen
 # Detach: Ctrl+A, D
 screen -S ibmi-mcp -X quit   # beenden
 ```
@@ -142,6 +142,6 @@ screen -dmS ibmi-mcp /home/<USER>/ibmi-mcp-server/start-http.sh
 | `Tool … is already registered` | YAML + Built-in Duplikat | Tool in YAML deaktivieren |
 | `security violation` beim Laden sys-admin | `describe_object` mit CALL | `enabled: false`, `describe_sql_object` nutzen |
 | `execute_sql` fehlt | Flags fehlen | `.env` + `--execute-sql` |
-| MCP-Timeout | `*ALLUSR` / große Scans | Bibliothek eingrenzen |
+| MCP-Timeout | `*ALLUSR` / grosse Scans | Bibliothek eingrenzen |
 
 Weitere Tool-Beschreibung: [ibm-i-mcp.md](ibm-i-mcp.md)

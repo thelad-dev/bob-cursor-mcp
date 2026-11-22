@@ -1,8 +1,8 @@
-# IBM i MCP Server — Einrichtung und Nutzung
+# IBM i MCP Server: Einrichtung und Nutzung
 
 Der **IBM i MCP Server** (`ibmi-mcp`) stellt Cursor direkten Zugriff auf die Partition bereit: SQL, Schema-Discovery, System-Services, Security-Analysen usw.
 
-## Architektur (<HOST>)
+## Architektur (`<HOST>`)
 
 ```
 Cursor (ibmi-mcp, HTTP)
@@ -13,11 +13,11 @@ Cursor (ibmi-mcp, HTTP)
         → IBM i Partition (z. B. <PARTITION>)
 ```
 
-Server läuft typischerweise in einer **GNU screen**-Session:
+Server laeuft typischerweise in einer **GNU screen**-Session:
 
 ```bash
 screen -ls          # Session „ibmi-mcp“
-screen -r ibmi-mcp  # anhängen
+screen -r ibmi-mcp  # anhaengen
 ```
 
 Start und lokale Patches: [deployment-host.md](deployment-host.md)
@@ -47,11 +47,11 @@ TOOLS_YAML_PATH=/home/<USER>/ibmi-mcp-server/tools
 IBMI_ENABLE_DEFAULT_TOOLS=true
 IBMI_ENABLE_EXECUTE_SQL=true
 
-# execute_sql nur SELECT — serverseitig blockiert, readOnlyHint=true
+# execute_sql nur SELECT: serverseitig blockiert, readOnlyHint=true
 IBMI_EXECUTE_SQL_READONLY=true
 ```
 
-**`.env` nicht committen** — enthält Zugangsdaten zur Partition.
+**`.env` nicht committen** - enthaelt Zugangsdaten zur Partition.
 
 ## Toolsets (Stand: 79 Tools)
 
@@ -66,23 +66,23 @@ IBMI_EXECUTE_SQL_READONLY=true
 
 Alle 17 YAML-Toolsets unter `tools/` werden geladen, wenn `SELECTED_TOOLSETS` nicht gesetzt ist.
 
-## Lese- vs. Schreib-Tools (Cursor-Bestätigung)
+## Lese- vs. Schreib-Tools (Cursor-Bestaetigung)
 
 Cursor nutzt **`readOnlyHint`** aus den Tool-Metadaten:
 
 | Kategorie | Anzahl | Verhalten in Cursor |
 |-----------|--------|---------------------|
-| Lesend (`readOnlyHint: true`) | 77 | Auto-Ausführung, keine Bestätigung |
-| Schreibend (`readOnlyHint: false`) | 2 | Bestätigung erforderlich |
+| Lesend (`readOnlyHint: true`) | 77 | Auto-Ausfuehrung, keine Bestaetigung |
+| Schreibend (`readOnlyHint: false`) | 2 | Bestaetigung erforderlich |
 
 Schreib-Tools:
 
 - `repopulate_special_authority_detail`
 - `execute_impersonation_lockdown`
 
-`execute_sql` ist **read-only** konfiguriert (`IBMI_EXECUTE_SQL_READONLY=true`) — nur `SELECT`-Abfragen.
+`execute_sql` ist **read-only** konfiguriert (`IBMI_EXECUTE_SQL_READONLY=true`) - nur `SELECT`-Abfragen.
 
-## Wichtige MCP-Tools für Recherche
+## Wichtige MCP-Tools fuer Recherche
 
 | Aufgabe | Tool |
 |---------|------|
@@ -90,11 +90,11 @@ Schreib-Tools:
 | Tabellen in Bibliothek finden | `list_tables_in_schema` |
 | Spalten einer Tabelle | `get_table_columns` |
 | DDL einer SQL-Objekts | `describe_sql_object` |
-| Abhängigkeiten einer Datei | `find_dependent_objects` |
+| Abhaengigkeiten einer Datei | `find_dependent_objects` |
 | IBM-i-Service-Beispiele | `search_examples_for_keyword` |
 | Systemstatus | `system_status` |
 
-### Beispiel: Objekt in <LIBRARY> suchen
+### Beispiel: Objekt in `<LIBRARY>` suchen
 
 ```sql
 SELECT OBJNAME, OBJTYPE, OBJATTRIBUTE, TEXT,
@@ -104,9 +104,9 @@ WHERE OBJNAME LIKE 'TASA001%'
 FETCH FIRST 20 ROWS ONLY
 ```
 
-**Tipp:** `OBJECT_STATISTICS('*ALLUSR', …)` kann timeouten — lieber gezielt Bibliotheken (`<LIBRARY>`, `<LIBRARY2>`, `<LIBRARY3>`, `QS36F`) abfragen.
+**Tipp:** `OBJECT_STATISTICS('*ALLUSR', …)` kann timeouten - lieber gezielt Bibliotheken (`<LIBRARY>`, `<LIBRARY2>`, `<LIBRARY3>`, `QS36F`) abfragen.
 
-### PROGRAM_INFO — gültige Spalten
+### PROGRAM_INFO: gueltige Spalten
 
 Auf dieser Partition u. a.:
 
@@ -117,11 +117,11 @@ Nicht vorhanden: `PROGRAM_TEXT`, `SOURCE_MEMBER` (Spalten variieren je nach IBM-
 
 ## Fehlerbehebung
 
-| Symptom | Lösung |
-|---------|--------|
-| Server startet nicht / 500 bei `tools/list` | YAML-Duplikate prüfen (Built-ins vs. YAML) |
+| Symptom | Loesung |
+|---------|---------|
+| Server startet nicht / 500 bei `tools/list` | YAML-Duplikate pruefen (Built-ins vs. YAML) |
 | `execute_sql` fehlt | `--execute-sql` in `start-http.sh`, `IBMI_ENABLE_EXECUTE_SQL=true` |
-| Tool bricht mit SQL0206 ab | Spaltenname falsch — `SYSCOLUMNS` für View prüfen |
+| Tool bricht mit SQL0206 ab | Spaltenname falsch - `SYSCOLUMNS` fuer View pruefen |
 | Abfrage timeout | Bibliothek eingrenzen, `FETCH FIRST n ROWS ONLY` |
 | Bob findet ibmi-mcp nicht | Bob-seitig `bob mcp add …` (siehe [einrichtung.md](einrichtung.md)) |
 | Start, `.env`, YAML-Patches | [deployment-host.md](deployment-host.md) |

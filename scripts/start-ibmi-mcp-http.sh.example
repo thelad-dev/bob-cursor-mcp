@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Vorlage für /home/<USER>/ibmi-mcp-server/start-http.sh
+# Vorlage fuer /home/<USER>/ibmi-mcp-server/start-http.sh
 # Siehe docs/deployment-host.md
 set -euo pipefail
 cd /home/<USER>/ibmi-mcp-server
